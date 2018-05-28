@@ -3,9 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{23244771-2A0C-4E19-BF3F-929B103C9613}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonkeyShock.PixelEater", "Game\MonkeyShock.PixelEater\MonkeyShock.PixelEater.csproj", "{8ECC8204-2D2C-47A4-95AB-6F5ACC2AA3B7}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8ECC8204-2D2C-47A4-95AB-6F5ACC2AA3B7}.Debug|x86.ActiveCfg = Debug|x86
+		{8ECC8204-2D2C-47A4-95AB-6F5ACC2AA3B7}.Debug|x86.Build.0 = Debug|x86
+		{8ECC8204-2D2C-47A4-95AB-6F5ACC2AA3B7}.Release|x86.ActiveCfg = Release|x86
+		{8ECC8204-2D2C-47A4-95AB-6F5ACC2AA3B7}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8ECC8204-2D2C-47A4-95AB-6F5ACC2AA3B7} = {23244771-2A0C-4E19-BF3F-929B103C9613}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12344139-3C9E-41A6-A163-B8430B269D82}
