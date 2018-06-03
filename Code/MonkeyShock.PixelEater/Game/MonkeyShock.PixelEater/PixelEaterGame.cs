@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonkeyShock.PixelEater.Common;
 
 namespace MonkeyShock.PixelEater
 {
@@ -11,31 +12,23 @@ namespace MonkeyShock.PixelEater
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private Texture2D squareTexture;
-        private Vector2 position;
-        private int squareTextureSize = 100;
-        private int movePixelNumber = 3; 
+        private Gameplay gameplay; 
+
+
+        private GameState gameState; 
 
         public PixelEaterGame()
         {
+            this.gameState = GameState.Gameplay; 
             this.graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()
         {
-            this.squareTexture = new Texture2D(this.GraphicsDevice, squareTextureSize, squareTextureSize);
-
-            var colorArraySize = squareTextureSize * squareTextureSize; 
-            Color[] colorData = new Color[colorArraySize];
-            for (int i = 0; i < colorArraySize; i++)
-            {
-                colorData[i] = Color.Red;
-            }
-
-            squareTexture.SetData<Color>(colorData);
+            this.gameplay = new Gameplay();
+            this.gameplay.Initialize(this.GraphicsDevice); 
             base.Initialize();
-
         }
 
         protected override void LoadContent()
@@ -53,61 +46,24 @@ namespace MonkeyShock.PixelEater
 
         protected override void Update(GameTime gameTime)
         {
+            if(this.gameState == GameState.Gameplay)
+            {
+                this.gameplay.HandleKeyboardEvents(); 
+            }
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                if (position.Y > 0)
-                {
-                    this.position.Y -= movePixelNumber;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                if (position.Y <= this.GraphicsDevice.Viewport.Height - squareTextureSize)
-                {
-                    this.position.Y += movePixelNumber;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                if (position.X > 0)
-                {
-                    this.position.X -= movePixelNumber;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                if(position.X <= this.GraphicsDevice.Viewport.Width - squareTextureSize)
-                {
-                    this.position.X += movePixelNumber;
-                }
-            }
-
-
-            //this.position.X += 1;
-            //if (position.X > this.GraphicsDevice.Viewport.Width)
-            //{
-            //    this.position.X = 0;
-            //}
-
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            this.spriteBatch.Begin();
-            this.spriteBatch.Draw(squareTexture, position, Color.Yellow);
-            this.spriteBatch.End();
+            if (this.gameState == GameState.Gameplay)
+            {
+                this.gameplay.Draw(this.spriteBatch);
+            }
 
             base.Draw(gameTime);
         }
