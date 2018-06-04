@@ -12,21 +12,28 @@ namespace MonkeyShock.PixelEater
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private WelcomeScreen welcomeScreen; 
         private Gameplay gameplay; 
 
 
-        private GameState gameState; 
+
+        public static GameState GameState; 
 
         public PixelEaterGame()
         {
-            this.gameState = GameState.Gameplay; 
+            
             this.graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            GameState = GameState.WelcomeScreen; 
+            this.welcomeScreen = new WelcomeScreen(); 
+            this.gameplay = new Gameplay();
         }
 
         protected override void Initialize()
         {
-            this.gameplay = new Gameplay();
+            this.welcomeScreen.Initialize(this.GraphicsDevice); 
             this.gameplay.Initialize(this.GraphicsDevice); 
             base.Initialize();
         }
@@ -46,7 +53,11 @@ namespace MonkeyShock.PixelEater
 
         protected override void Update(GameTime gameTime)
         {
-            if(this.gameState == GameState.Gameplay)
+            if(GameState == GameState.WelcomeScreen)
+            {
+                this.welcomeScreen.HandleKeyboardEvents(); 
+            }
+            else if(GameState == GameState.Gameplay)
             {
                 this.gameplay.HandleKeyboardEvents(); 
             }
@@ -60,7 +71,12 @@ namespace MonkeyShock.PixelEater
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            if (this.gameState == GameState.Gameplay)
+
+            if (GameState == GameState.WelcomeScreen)
+            {
+                this.welcomeScreen.Draw(this.spriteBatch); 
+            }
+            else if(GameState == GameState.Gameplay)
             {
                 this.gameplay.Draw(this.spriteBatch);
             }

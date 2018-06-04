@@ -1,21 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonkeyShock.PixelEater.Common
 {
-    class Gameplay
+    class Gameplay : GameStateBase
     { 
         private Vector2 position;
         private Texture2D squareTexture; 
         private int squareTextureSize = 10;
         private int movePixelNumber = 3;
-        private GraphicsDevice graphicsDevice; 
 
         public Texture2D SquareTexture {
             get { return this.squareTexture; }
@@ -27,8 +21,7 @@ namespace MonkeyShock.PixelEater.Common
             set { this.position = value; }
         }
 
-
-        public void Initialize(GraphicsDevice graphicsDevice)
+        public override void Initialize(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice; 
             this.SquareTexture = new Texture2D(this.graphicsDevice, squareTextureSize, squareTextureSize);
@@ -40,12 +33,11 @@ namespace MonkeyShock.PixelEater.Common
                 colorData[i] = Color.Red;
             }
 
-            SquareTexture.SetData<Color>(colorData);
+            this.squareTexture.SetData<Color>(colorData);
         }
 
-        public void HandleKeyboardEvents()
+        public override void HandleKeyboardEvents()
         {
-
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
@@ -78,9 +70,14 @@ namespace MonkeyShock.PixelEater.Common
                     this.position.X += movePixelNumber;
                 }
             }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Back))
+            {
+                PixelEaterGame.GameState = GameState.WelcomeScreen; 
+            }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(squareTexture, position, Color.Yellow);
