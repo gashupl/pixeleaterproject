@@ -16,13 +16,11 @@ namespace MonkeyShock.PixelEater
         private WelcomeScreen welcomeScreen; 
         private Gameplay gameplay; 
 
-
-
         public static GameState GameState; 
 
         public PixelEaterGame()
         {
-            
+            this.Window.Title = "Pixel Eater Project";
             this.graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
@@ -40,10 +38,10 @@ namespace MonkeyShock.PixelEater
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            this.welcomeScreen.LoadContent(this.Content); 
+            this.gameplay.LoadContent(this.Content); 
         }
 
         protected override void UnloadContent()
