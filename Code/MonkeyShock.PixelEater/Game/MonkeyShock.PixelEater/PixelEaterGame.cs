@@ -10,18 +10,24 @@ namespace MonkeyShock.PixelEater
     /// </summary>
     public class PixelEaterGame : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
         private WelcomeScreen welcomeScreen; 
         private Gameplay gameplay; 
 
+        public static int WindowWidth = 1280; //HD resolution
+        public static int WindowHeigth = 720; //HD resolution
         public static GameState GameState; 
 
         public PixelEaterGame()
         {
             this.Window.Title = "Pixel Eater Project";
             this.graphics = new GraphicsDeviceManager(this);
+            this.graphics.PreferredBackBufferWidth = PixelEaterGame.WindowWidth;
+            this.graphics.PreferredBackBufferHeight = PixelEaterGame.WindowHeigth; 
+            this.graphics.IsFullScreen = false;
+            this.graphics.ApplyChanges();
             Content.RootDirectory = "Content";
 
             GameState = GameState.WelcomeScreen; 
@@ -32,7 +38,7 @@ namespace MonkeyShock.PixelEater
         protected override void Initialize()
         {
             this.welcomeScreen.Initialize(this.GraphicsDevice); 
-            this.gameplay.Initialize(this.GraphicsDevice); 
+            this.gameplay.Initialize(this.GraphicsDevice);
             base.Initialize();
         }
 

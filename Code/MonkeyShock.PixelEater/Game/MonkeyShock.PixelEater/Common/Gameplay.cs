@@ -6,38 +6,42 @@ using Microsoft.Xna.Framework.Input;
 namespace MonkeyShock.PixelEater.Common
 {
     class Gameplay : GameStateBase
-    { 
-        private Vector2 position = new Vector2(10, 30);
-        private Texture2D squareTexture;
-        private SpriteFont font;
-        private Vector2 scoreTextPosition = new Vector2(10, 10); 
+    {
+        private int frameSize = 10;
         private int score = 0;
+        private int arenaWidth = 1000;
+        private int arenaHeigth = 700;
         private int squareTextureSize = 10;
         private int movePixelNumber = 3;
 
-        public Texture2D SquareTexture {
-            get { return this.squareTexture; }
-            set { this.squareTexture = value; }
-        }
-        public Vector2 Position
-        {
-            get { return this.position; }
-            set { this.position = value; }
-        }
+        private Vector2 eaterInitialPosition; 
+        private Texture2D eaterTexture;
+        private SpriteFont font;
+        private Vector2 scoreTextPosition; 
 
+        private Vector2 arenaInitialPosition; 
+        private Texture2D arenaTexture;
+
+        public Gameplay()
+        {
+            this.eaterInitialPosition = new Vector2(this.frameSize, 30);
+            this.scoreTextPosition = new Vector2(this.frameSize, 10);
+            this.arenaInitialPosition = new Vector2(
+                PixelEaterGame.WindowWidth - arenaWidth - frameSize,
+                PixelEaterGame.WindowHeigth - arenaHeigth - frameSize
+                ); 
+
+        }
         public override void Initialize(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice; 
-            this.SquareTexture = new Texture2D(this.graphicsDevice, squareTextureSize, squareTextureSize);
+            this.eaterTexture = new Texture2D(this.graphicsDevice, squareTextureSize, squareTextureSize);
+            this.arenaTexture = new Texture2D(this.graphicsDevice, this.arenaWidth, this.arenaHeigth);
 
-            var colorArraySize = squareTextureSize * squareTextureSize;
-            Color[] colorData = new Color[colorArraySize];
-            for (int i = 0; i < colorArraySize; i++)
-            {
-                colorData[i] = Color.Red;
-            }
+            var colorDataFactory = new ColorDataFactory();
 
-            this.squareTexture.SetData<Color>(colorData);
+            this.eaterTexture.SetData<Color>(colorDataFactory.Get(this.squareTextureSize * this.squareTextureSize, Color.Red));
+            this.arenaTexture.SetData<Color>(colorDataFactory.Get(this.arenaWidth * this.arenaHeigth, Color.White)); 
         }
 
         public override void HandleKeyboardEvents()
@@ -45,33 +49,33 @@ namespace MonkeyShock.PixelEater.Common
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                if (Position.Y > 0)
+                if (this.eaterInitialPosition.Y > 0)
                 {
-                    this.position.Y -= movePixelNumber;
+                    this.eaterInitialPosition.Y -= movePixelNumber;
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                if (position.Y <= this.graphicsDevice.Viewport.Height - squareTextureSize)
+                if (eaterInitialPosition.Y <= this.graphicsDevice.Viewport.Height - squareTextureSize)
                 {
-                    this.position.Y += movePixelNumber;
+                    this.eaterInitialPosition.Y += movePixelNumber;
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                if (position.X > 0)
+                if (eaterInitialPosition.X > 0)
                 {
-                    this.position.X -= movePixelNumber;
+                    this.eaterInitialPosition.X -= movePixelNumber;
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                if (position.X <= this.graphicsDevice.Viewport.Width - squareTextureSize)
+                if (eaterInitialPosition.X <= this.graphicsDevice.Viewport.Width - squareTextureSize)
                 {
-                    this.position.X += movePixelNumber;
+                    this.eaterInitialPosition.X += movePixelNumber;
                 }
             }
 
@@ -84,7 +88,8 @@ namespace MonkeyShock.PixelEater.Common
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(squareTexture, position, Color.Yellow);
+            spriteBatch.Draw(arenaTexture, arenaInitialPosition, Color.White);
+            spriteBatch.Draw(eaterTexture, eaterInitialPosition, Color.Yellow);     
             spriteBatch.DrawString(font, $"Score: {this.score}", scoreTextPosition, Color.Red);
             spriteBatch.End();
         }
