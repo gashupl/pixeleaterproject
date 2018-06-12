@@ -24,12 +24,13 @@ namespace MonkeyShock.PixelEater.Common
 
         public Gameplay()
         {
-            this.eaterInitialPosition = new Vector2(this.frameSize, 30);
+           
             this.scoreTextPosition = new Vector2(this.frameSize, 10);
             this.arenaInitialPosition = new Vector2(
                 PixelEaterGame.WindowWidth - arenaWidth - frameSize,
                 PixelEaterGame.WindowHeigth - arenaHeigth - frameSize
-                ); 
+                );
+            this.eaterInitialPosition = new Vector2(this.arenaInitialPosition.X, this.arenaInitialPosition.Y);
 
         }
         public override void Initialize(GraphicsDevice graphicsDevice)
@@ -49,7 +50,7 @@ namespace MonkeyShock.PixelEater.Common
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                if (this.eaterInitialPosition.Y > 0)
+                if (this.eaterInitialPosition.Y > this.arenaInitialPosition.Y)
                 {
                     this.eaterInitialPosition.Y -= movePixelNumber;
                 }
@@ -57,15 +58,23 @@ namespace MonkeyShock.PixelEater.Common
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                if (eaterInitialPosition.Y <= this.graphicsDevice.Viewport.Height - squareTextureSize)
+                var arenaDownCornerY = this.arenaInitialPosition.Y + arenaHeigth - this.squareTextureSize;
+                if (eaterInitialPosition.Y < arenaDownCornerY)
                 {
-                    this.eaterInitialPosition.Y += movePixelNumber;
+                    if ((arenaDownCornerY - this.eaterInitialPosition.Y) >= movePixelNumber)
+                    {
+                        this.eaterInitialPosition.Y += movePixelNumber;
+                    }
+                    else
+                    {
+                        this.eaterInitialPosition.Y += (arenaDownCornerY - this.eaterInitialPosition.Y);
+                    }
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                if (eaterInitialPosition.X > 0)
+                if (eaterInitialPosition.X > this.arenaInitialPosition.X)
                 {
                     this.eaterInitialPosition.X -= movePixelNumber;
                 }
@@ -73,9 +82,18 @@ namespace MonkeyShock.PixelEater.Common
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                if (eaterInitialPosition.X <= this.graphicsDevice.Viewport.Width - squareTextureSize)
+                var arenaRightCornerX = this.arenaInitialPosition.X + this.arenaWidth - this.squareTextureSize; 
+                if (eaterInitialPosition.X < arenaRightCornerX)
                 {
-                    this.eaterInitialPosition.X += movePixelNumber;
+                    if ((arenaRightCornerX - eaterInitialPosition.X) >= movePixelNumber)
+                    {
+                        this.eaterInitialPosition.X += movePixelNumber;
+                    }
+                    else
+                    {
+                        this.eaterInitialPosition.X += (arenaRightCornerX - eaterInitialPosition.X);
+                    }
+
                 }
             }
 
