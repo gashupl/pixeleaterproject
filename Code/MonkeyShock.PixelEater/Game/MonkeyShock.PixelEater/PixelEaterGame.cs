@@ -63,7 +63,8 @@ namespace MonkeyShock.PixelEater
             }
             else if(GameState == GameState.Gameplay)
             {
-                this.gameplay.HandleKeyboardEvents(); 
+                this.gameplay.HandleKeyboardEvents();
+                this.gameplay.Update(gameTime); 
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {

@@ -7,17 +7,22 @@ namespace MonkeyShock.PixelEater.Common
 {
     class Gameplay : GameStateBase
     {
-        private int frameSize = 10;
+        
+        private readonly int frameSize = 10;
+        private readonly int arenaWidth = 1000;
+        private readonly int arenaHeigth = 700;
+        private readonly int squareTextureSize = 10;
+        private readonly int movePixelNumber = 3;
+
         private int score = 0;
-        private int arenaWidth = 1000;
-        private int arenaHeigth = 700;
-        private int squareTextureSize = 10;
-        private int movePixelNumber = 3;
+        private int remainingTime = 60;
+        private int savedTotalGameTime = 0; // seconds
 
         private Vector2 eaterInitialPosition; 
         private Texture2D eaterTexture;
         private SpriteFont font;
-        private Vector2 scoreTextPosition; 
+        private Vector2 scoreTextPosition;
+        private Vector2 timerTextPosition;
 
         private Vector2 arenaInitialPosition; 
         private Texture2D arenaTexture;
@@ -26,6 +31,7 @@ namespace MonkeyShock.PixelEater.Common
         {
            
             this.scoreTextPosition = new Vector2(this.frameSize, 10);
+            this.timerTextPosition = new Vector2(this.frameSize, 40);
             this.arenaInitialPosition = new Vector2(
                 PixelEaterGame.WindowWidth - arenaWidth - frameSize,
                 PixelEaterGame.WindowHeigth - arenaHeigth - frameSize
@@ -33,6 +39,7 @@ namespace MonkeyShock.PixelEater.Common
             this.eaterInitialPosition = new Vector2(this.arenaInitialPosition.X, this.arenaInitialPosition.Y);
 
         }
+
         public override void Initialize(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice; 
@@ -103,12 +110,30 @@ namespace MonkeyShock.PixelEater.Common
             }
         }
 
+        public void Update(GameTime gameTime)
+        {
+            var currentGameTotalTime = (int)gameTime.TotalGameTime.TotalSeconds;
+
+            if (this.savedTotalGameTime == 0)
+            {
+                this.savedTotalGameTime = currentGameTotalTime;
+            }
+            else
+            {
+                if(this.savedTotalGameTime < currentGameTotalTime && this.remainingTime > 0)
+                {
+                    this.savedTotalGameTime = currentGameTotalTime;
+                    this.remainingTime--; 
+                }
+            }
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(arenaTexture, arenaInitialPosition, Color.White);
             spriteBatch.Draw(eaterTexture, eaterInitialPosition, Color.Yellow);     
             spriteBatch.DrawString(font, $"Score: {this.score}", scoreTextPosition, Color.Red);
+            spriteBatch.DrawString(font, $"Remaining time: {this.remainingTime}", timerTextPosition, Color.Red);
             spriteBatch.End();
         }
 
