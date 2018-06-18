@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonkeyShock.Common;
 
 namespace MonkeyShock.PixelEater.Common
 {
-    class Gameplay : GameStateBase
+    class GameplayScreen : GameStateBase
     {
         
         private readonly int frameSize = 10;
@@ -15,8 +16,8 @@ namespace MonkeyShock.PixelEater.Common
         private readonly int movePixelNumber = 3;
 
         private int score = 0;
-        private int remainingTime = 60;
-        private int savedTotalGameTime = 0; // seconds
+        private int initialSecondsNumber = 60; 
+        private TimeCounter timeCounter; 
 
         private Vector2 eaterInitialPosition; 
         private Texture2D eaterTexture;
@@ -27,7 +28,7 @@ namespace MonkeyShock.PixelEater.Common
         private Vector2 arenaInitialPosition; 
         private Texture2D arenaTexture;
 
-        public Gameplay()
+        public GameplayScreen()
         {
            
             this.scoreTextPosition = new Vector2(this.frameSize, 10);
@@ -37,6 +38,7 @@ namespace MonkeyShock.PixelEater.Common
                 PixelEaterGame.WindowHeigth - arenaHeigth - frameSize
                 );
             this.eaterInitialPosition = new Vector2(this.arenaInitialPosition.X, this.arenaInitialPosition.Y);
+            this.timeCounter = new TimeCounter(this.initialSecondsNumber); 
 
         }
 
@@ -112,20 +114,7 @@ namespace MonkeyShock.PixelEater.Common
 
         public void Update(GameTime gameTime)
         {
-            var currentGameTotalTime = (int)gameTime.TotalGameTime.TotalSeconds;
-
-            if (this.savedTotalGameTime == 0)
-            {
-                this.savedTotalGameTime = currentGameTotalTime;
-            }
-            else
-            {
-                if(this.savedTotalGameTime < currentGameTotalTime && this.remainingTime > 0)
-                {
-                    this.savedTotalGameTime = currentGameTotalTime;
-                    this.remainingTime--; 
-                }
-            }
+            this.timeCounter.Update(gameTime); 
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -133,7 +122,7 @@ namespace MonkeyShock.PixelEater.Common
             spriteBatch.Draw(arenaTexture, arenaInitialPosition, Color.White);
             spriteBatch.Draw(eaterTexture, eaterInitialPosition, Color.Yellow);     
             spriteBatch.DrawString(font, $"Score: {this.score}", scoreTextPosition, Color.Red);
-            spriteBatch.DrawString(font, $"Remaining time: {this.remainingTime}", timerTextPosition, Color.Red);
+            spriteBatch.DrawString(font, $"Remaining time: {this.timeCounter.RemainingTime}", timerTextPosition, Color.Red);
             spriteBatch.End();
         }
 

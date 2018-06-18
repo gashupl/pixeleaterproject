@@ -5,6 +5,7 @@
         WelcomeScreen,
         Gameplay,
         Credits,
-        HighScore
+        HighScore, 
+        GameOver
     }
 }

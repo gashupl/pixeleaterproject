@@ -14,7 +14,7 @@ namespace MonkeyShock.PixelEater
         private SpriteBatch spriteBatch;
 
         private WelcomeScreen welcomeScreen; 
-        private Gameplay gameplay; 
+        private GameplayScreen gameplay; 
 
         public static int WindowWidth = 1280; //HD resolution
         public static int WindowHeigth = 720; //HD resolution
@@ -32,7 +32,7 @@ namespace MonkeyShock.PixelEater
 
             GameState = GameState.WelcomeScreen; 
             this.welcomeScreen = new WelcomeScreen(); 
-            this.gameplay = new Gameplay();
+            this.gameplay = new GameplayScreen();
         }
 
         protected override void Initialize()

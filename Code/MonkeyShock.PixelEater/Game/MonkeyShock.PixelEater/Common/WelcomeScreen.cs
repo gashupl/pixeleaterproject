@@ -14,7 +14,6 @@ namespace MonkeyShock.PixelEater.Common
         private SpriteFont font;
 
         private int singleSquareTextureSize = 30;
-        //private Texture2D[] textures;
 
         public override void Initialize(GraphicsDevice graphicsDevice)
         {
