@@ -3,20 +3,21 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonkeyShock.Common;
+using System;
 
 namespace MonkeyShock.PixelEater.Common
 {
     class GameplayScreen : GameStateBase
     {
-        
+        public static int Score = 0;
+
         private readonly int frameSize = 10;
         private readonly int arenaWidth = 1000;
         private readonly int arenaHeigth = 700;
         private readonly int squareTextureSize = 10;
         private readonly int movePixelNumber = 3;
-
-        private int score = 0;
-        private int initialSecondsNumber = 60; 
+  
+        private int initialSecondsNumber = 5; 
         private TimeCounter timeCounter; 
 
         private Vector2 eaterInitialPosition; 
@@ -28,9 +29,12 @@ namespace MonkeyShock.PixelEater.Common
         private Vector2 arenaInitialPosition; 
         private Texture2D arenaTexture;
 
-        public GameplayScreen()
+        private Action onTimesUpAction; 
+
+        public GameplayScreen(Action onTimesUpAction)
         {
-           
+
+            this.onTimesUpAction = onTimesUpAction; 
             this.scoreTextPosition = new Vector2(this.frameSize, 10);
             this.timerTextPosition = new Vector2(this.frameSize, 40);
             this.arenaInitialPosition = new Vector2(
@@ -38,7 +42,7 @@ namespace MonkeyShock.PixelEater.Common
                 PixelEaterGame.WindowHeigth - arenaHeigth - frameSize
                 );
             this.eaterInitialPosition = new Vector2(this.arenaInitialPosition.X, this.arenaInitialPosition.Y);
-            this.timeCounter = new TimeCounter(this.initialSecondsNumber); 
+            this.timeCounter = new TimeCounter(this.initialSecondsNumber, onTimesUpAction); 
 
         }
 
@@ -115,13 +119,14 @@ namespace MonkeyShock.PixelEater.Common
         public void Update(GameTime gameTime)
         {
             this.timeCounter.Update(gameTime); 
+          //  if(this.timeCounter.RemainingTime )
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(arenaTexture, arenaInitialPosition, Color.White);
             spriteBatch.Draw(eaterTexture, eaterInitialPosition, Color.Yellow);     
-            spriteBatch.DrawString(font, $"Score: {this.score}", scoreTextPosition, Color.Red);
+            spriteBatch.DrawString(font, $"Score: {Score}", scoreTextPosition, Color.Red);
             spriteBatch.DrawString(font, $"Remaining time: {this.timeCounter.RemainingTime}", timerTextPosition, Color.Red);
             spriteBatch.End();
         }

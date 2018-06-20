@@ -14,7 +14,8 @@ namespace MonkeyShock.PixelEater
         private SpriteBatch spriteBatch;
 
         private WelcomeScreen welcomeScreen; 
-        private GameplayScreen gameplay; 
+        private GameplayScreen gameplayScreen;
+        private GameOverScreen gameoverScreen; 
 
         public static int WindowWidth = 1280; //HD resolution
         public static int WindowHeigth = 720; //HD resolution
@@ -32,13 +33,21 @@ namespace MonkeyShock.PixelEater
 
             GameState = GameState.WelcomeScreen; 
             this.welcomeScreen = new WelcomeScreen(); 
-            this.gameplay = new GameplayScreen();
+            this.gameplayScreen = new GameplayScreen(this.ShowGameOverScreen);
+            this.gameoverScreen = new GameOverScreen();
+        }
+
+        public void ShowGameOverScreen()
+        {
+            this.gameoverScreen.SetScore(GameplayScreen.Score);
+            GameState = GameState.GameOver; 
         }
 
         protected override void Initialize()
         {
             this.welcomeScreen.Initialize(this.GraphicsDevice); 
-            this.gameplay.Initialize(this.GraphicsDevice);
+            this.gameplayScreen.Initialize(this.GraphicsDevice);
+            this.gameoverScreen.Initialize(this.GraphicsDevice); 
             base.Initialize();
         }
 
@@ -46,8 +55,9 @@ namespace MonkeyShock.PixelEater
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            this.welcomeScreen.LoadContent(this.Content); 
-            this.gameplay.LoadContent(this.Content); 
+            this.welcomeScreen.LoadContent(this.Content);
+            this.gameplayScreen.LoadContent(this.Content);
+            this.gameoverScreen.LoadContent(this.Content); 
         }
 
         protected override void UnloadContent()
@@ -63,8 +73,12 @@ namespace MonkeyShock.PixelEater
             }
             else if(GameState == GameState.Gameplay)
             {
-                this.gameplay.HandleKeyboardEvents();
-                this.gameplay.Update(gameTime); 
+                this.gameplayScreen.HandleKeyboardEvents();
+                this.gameplayScreen.Update(gameTime); 
+            }
+            else if (GameState == GameState.GameOver)
+            {
+                this.gameoverScreen.HandleKeyboardEvents();
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -83,7 +97,11 @@ namespace MonkeyShock.PixelEater
             }
             else if(GameState == GameState.Gameplay)
             {
-                this.gameplay.Draw(this.spriteBatch);
+                this.gameplayScreen.Draw(this.spriteBatch);
+            }
+            else if (GameState == GameState.GameOver)
+            {
+                this.gameoverScreen.Draw(this.spriteBatch);
             }
 
             base.Draw(gameTime);

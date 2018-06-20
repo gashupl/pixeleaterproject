@@ -10,13 +10,14 @@ namespace MonkeyShock.Common
     public class TimeCounter
     {
         private int savedTotalGameTime = 0; // seconds
-        private Action executeOnCounterExpired;
+        private Action onTimesUpAction; 
 
         public int RemainingTime { get; private set; }
 
-        public TimeCounter(int intialSecondsNumber)
+        public TimeCounter(int intialSecondsNumber, Action onTimesUpAction)
         {
-            this.RemainingTime = intialSecondsNumber; 
+            this.RemainingTime = intialSecondsNumber;
+            this.onTimesUpAction = onTimesUpAction; 
         }
 
         public void Update(GameTime gameTime)
@@ -34,6 +35,11 @@ namespace MonkeyShock.Common
                     this.savedTotalGameTime = currentGameTotalTime;
                     this.RemainingTime--;
                 }
+            }
+
+            if(RemainingTime == 0)
+            {
+                this.onTimesUpAction.Invoke();
             }
         }
 

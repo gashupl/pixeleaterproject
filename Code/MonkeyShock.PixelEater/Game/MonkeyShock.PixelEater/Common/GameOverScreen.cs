@@ -3,31 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace MonkeyShock.PixelEater.Common
 {
     class GameOverScreen : GameStateBase
     {
-        public override void Draw(SpriteBatch spriteBatch)
+        private int score;
+
+        private SpriteFont font;
+        private Vector2 gameoverTextPosition;
+        private Vector2 scoreTextPosition;
+
+        public GameOverScreen()
         {
-            throw new NotImplementedException();
+   
+            this.gameoverTextPosition = new Vector2(100, 100);
+            this.scoreTextPosition = new Vector2(100, 140);
         }
 
-        public override void HandleKeyboardEvents()
+        public void SetScore(int score)
         {
-            throw new NotImplementedException();
+            this.score = score;
         }
 
         public override void Initialize(GraphicsDevice graphicsDevice)
         {
-            throw new NotImplementedException();
+            this.graphicsDevice = graphicsDevice;
         }
 
         public override void LoadContent(ContentManager content)
         {
-            throw new NotImplementedException();
+            this.font = content.Load<SpriteFont>("Score");
+        }
+
+        public override void HandleKeyboardEvents()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
+                PixelEaterGame.GameState = GameState.WelcomeScreen;
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+     
+            spriteBatch.DrawString(font, $"Game over!", gameoverTextPosition, Color.Red);
+            spriteBatch.DrawString(font, $"Your score: {this.score}", scoreTextPosition, Color.Red);
+            spriteBatch.End();
         }
     }
 }
