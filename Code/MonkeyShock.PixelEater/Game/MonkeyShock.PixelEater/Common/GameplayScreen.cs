@@ -31,7 +31,7 @@ namespace MonkeyShock.PixelEater.Common
 
         private Action onTimesUpAction; 
 
-        public GameplayScreen(Action onTimesUpAction)
+        public GameplayScreen(PixelEaterGame game, Action onTimesUpAction) : base(game)
         {
 
             this.onTimesUpAction = onTimesUpAction; 
@@ -46,9 +46,9 @@ namespace MonkeyShock.PixelEater.Common
 
         }
 
-        public override void Initialize(GraphicsDevice graphicsDevice)
+        public override void Initialize()
         {
-            this.graphicsDevice = graphicsDevice; 
+            this.graphicsDevice = this.game.GraphicsDevice; 
             this.eaterTexture = new Texture2D(this.graphicsDevice, squareTextureSize, squareTextureSize);
             this.arenaTexture = new Texture2D(this.graphicsDevice, this.arenaWidth, this.arenaHeigth);
 
@@ -112,28 +112,38 @@ namespace MonkeyShock.PixelEater.Common
 
             if (Keyboard.GetState().IsKeyDown(Keys.Back))
             {
-                PixelEaterGame.GameState = GameState.WelcomeScreen; 
+                this.game.GameState = GameState.WelcomeScreen; 
             }
         }
 
         public void Update(GameTime gameTime)
         {
             this.timeCounter.Update(gameTime); 
-          //  if(this.timeCounter.RemainingTime )
-        }
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            spriteBatch.Draw(arenaTexture, arenaInitialPosition, Color.White);
-            spriteBatch.Draw(eaterTexture, eaterInitialPosition, Color.Yellow);     
-            spriteBatch.DrawString(font, $"Score: {Score}", scoreTextPosition, Color.Red);
-            spriteBatch.DrawString(font, $"Remaining time: {this.timeCounter.RemainingTime}", timerTextPosition, Color.Red);
-            spriteBatch.End();
         }
 
-        public override void LoadContent(ContentManager content)
+        public void ResetScore()
         {
-            this.font = content.Load<SpriteFont>("Score");
+            Score = 0; 
+        }
+
+        public void ResetTimer()
+        {
+            this.timeCounter = new TimeCounter(this.initialSecondsNumber, onTimesUpAction);
+        }
+
+        public override void Draw()
+        {
+            this.game.SpriteBatch.Begin();
+            this.game.SpriteBatch.Draw(arenaTexture, arenaInitialPosition, Color.White);
+            this.game.SpriteBatch.Draw(eaterTexture, eaterInitialPosition, Color.Yellow);
+            this.game.SpriteBatch.DrawString(font, $"Score: {Score}", scoreTextPosition, Color.Red);
+            this.game.SpriteBatch.DrawString(font, $"Remaining time: {this.timeCounter.RemainingTime}", timerTextPosition, Color.Red);
+            this.game.SpriteBatch.End();
+        }
+
+        public override void LoadContent()
+        {
+            this.font = this.game.Content.Load<SpriteFont>("Score");
         }
     }
 }

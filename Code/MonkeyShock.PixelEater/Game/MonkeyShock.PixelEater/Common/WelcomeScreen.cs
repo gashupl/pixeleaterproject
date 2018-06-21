@@ -15,9 +15,14 @@ namespace MonkeyShock.PixelEater.Common
 
         private int singleSquareTextureSize = 30;
 
-        public override void Initialize(GraphicsDevice graphicsDevice)
+        public WelcomeScreen(PixelEaterGame game) : base(game)
         {
-            this.graphicsDevice = graphicsDevice;
+
+        }
+
+        public override void Initialize()
+        {
+            this.graphicsDevice = this.game.GraphicsDevice;
             this.titleTextures = new Texture2D[4]; 
             this.titleTextures[0] = new Texture2D(this.graphicsDevice, singleSquareTextureSize, singleSquareTextureSize * 6);
             this.titleTextures[1] = new Texture2D(this.graphicsDevice, singleSquareTextureSize * 3, singleSquareTextureSize);
@@ -36,27 +41,27 @@ namespace MonkeyShock.PixelEater.Common
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                PixelEaterGame.GameState = GameState.Gameplay; 
+                this.game.GameState = GameState.Gameplay; 
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw()
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(this.titleTextures[0], initialPosition, Color.Yellow);
-            spriteBatch.Draw(this.titleTextures[1], new Vector2(initialPosition.X + singleSquareTextureSize, initialPosition.Y), Color.Yellow);
-            spriteBatch.Draw(this.titleTextures[2], new Vector2(initialPosition.X + singleSquareTextureSize, initialPosition.Y + (singleSquareTextureSize * 3)), Color.Yellow);
-            spriteBatch.Draw(this.titleTextures[3], new Vector2(initialPosition.X + (singleSquareTextureSize * 3), initialPosition.Y + singleSquareTextureSize), Color.Yellow);
+            this.game.SpriteBatch.Begin();
+            this.game.SpriteBatch.Draw(this.titleTextures[0], initialPosition, Color.Yellow);
+            this.game.SpriteBatch.Draw(this.titleTextures[1], new Vector2(initialPosition.X + singleSquareTextureSize, initialPosition.Y), Color.Yellow);
+            this.game.SpriteBatch.Draw(this.titleTextures[2], new Vector2(initialPosition.X + singleSquareTextureSize, initialPosition.Y + (singleSquareTextureSize * 3)), Color.Yellow);
+            this.game.SpriteBatch.Draw(this.titleTextures[3], new Vector2(initialPosition.X + (singleSquareTextureSize * 3), initialPosition.Y + singleSquareTextureSize), Color.Yellow);
 
-            spriteBatch.DrawString(font, $"Start new game", new Vector2(this.initialMenuPosition.X, this.initialMenuPosition.Y), Color.Red);
-            spriteBatch.DrawString(font, $"High score", new Vector2(this.initialMenuPosition.X, this.initialMenuPosition.Y + 30), Color.Red);
-            spriteBatch.DrawString(font, $"Credits", new Vector2(this.initialMenuPosition.X, this.initialMenuPosition.Y + 60), Color.Red);
-            spriteBatch.End();
+            this.game.SpriteBatch.DrawString(font, $"Start new game", new Vector2(this.initialMenuPosition.X, this.initialMenuPosition.Y), Color.Red);
+            this.game.SpriteBatch.DrawString(font, $"High score", new Vector2(this.initialMenuPosition.X, this.initialMenuPosition.Y + 30), Color.Red);
+            this.game.SpriteBatch.DrawString(font, $"Credits", new Vector2(this.initialMenuPosition.X, this.initialMenuPosition.Y + 60), Color.Red);
+            this.game.SpriteBatch.End();
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            this.font = content.Load<SpriteFont>("WelcomeScreen");
+            this.font = this.game.Content.Load<SpriteFont>("WelcomeScreen");
         }
     }
 }

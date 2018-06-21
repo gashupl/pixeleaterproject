@@ -11,7 +11,7 @@ namespace MonkeyShock.PixelEater
     public class PixelEaterGame : Game
     {
         private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        public SpriteBatch SpriteBatch;
 
         private WelcomeScreen welcomeScreen; 
         private GameplayScreen gameplayScreen;
@@ -19,7 +19,22 @@ namespace MonkeyShock.PixelEater
 
         public static int WindowWidth = 1280; //HD resolution
         public static int WindowHeigth = 720; //HD resolution
-        public static GameState GameState; 
+
+        private GameState gameState; 
+        public GameState GameState {
+            get
+            {
+                return gameState; 
+            } 
+            set
+            {
+                if(value == GameState.WelcomeScreen && this.gameplayScreen != null)
+                {
+                    this.gameplayScreen.ResetTimer(); 
+                    this.gameplayScreen.ResetScore(); 
+                }
+                gameState = value; 
+            }}
 
         public PixelEaterGame()
         {
@@ -32,9 +47,9 @@ namespace MonkeyShock.PixelEater
             Content.RootDirectory = "Content";
 
             GameState = GameState.WelcomeScreen; 
-            this.welcomeScreen = new WelcomeScreen(); 
-            this.gameplayScreen = new GameplayScreen(this.ShowGameOverScreen);
-            this.gameoverScreen = new GameOverScreen();
+            this.welcomeScreen = new WelcomeScreen(this); 
+            this.gameplayScreen = new GameplayScreen(this, this.ShowGameOverScreen);
+            this.gameoverScreen = new GameOverScreen(this);
         }
 
         public void ShowGameOverScreen()
@@ -45,19 +60,19 @@ namespace MonkeyShock.PixelEater
 
         protected override void Initialize()
         {
-            this.welcomeScreen.Initialize(this.GraphicsDevice); 
-            this.gameplayScreen.Initialize(this.GraphicsDevice);
-            this.gameoverScreen.Initialize(this.GraphicsDevice); 
+            this.welcomeScreen.Initialize(); 
+            this.gameplayScreen.Initialize();
+            this.gameoverScreen.Initialize(); 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            this.welcomeScreen.LoadContent(this.Content);
-            this.gameplayScreen.LoadContent(this.Content);
-            this.gameoverScreen.LoadContent(this.Content); 
+            this.welcomeScreen.LoadContent();
+            this.gameplayScreen.LoadContent();
+            this.gameoverScreen.LoadContent(); 
         }
 
         protected override void UnloadContent()
@@ -93,15 +108,15 @@ namespace MonkeyShock.PixelEater
 
             if (GameState == GameState.WelcomeScreen)
             {
-                this.welcomeScreen.Draw(this.spriteBatch); 
+                this.welcomeScreen.Draw(); 
             }
             else if(GameState == GameState.Gameplay)
             {
-                this.gameplayScreen.Draw(this.spriteBatch);
+                this.gameplayScreen.Draw();
             }
             else if (GameState == GameState.GameOver)
             {
-                this.gameoverScreen.Draw(this.spriteBatch);
+                this.gameoverScreen.Draw();
             }
 
             base.Draw(gameTime);

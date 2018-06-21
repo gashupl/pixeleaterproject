@@ -18,7 +18,7 @@ namespace MonkeyShock.PixelEater.Common
         private Vector2 gameoverTextPosition;
         private Vector2 scoreTextPosition;
 
-        public GameOverScreen()
+        public GameOverScreen(PixelEaterGame game) : base(game)
         {
    
             this.gameoverTextPosition = new Vector2(100, 100);
@@ -30,31 +30,31 @@ namespace MonkeyShock.PixelEater.Common
             this.score = score;
         }
 
-        public override void Initialize(GraphicsDevice graphicsDevice)
+        public override void Initialize()
         {
-            this.graphicsDevice = graphicsDevice;
+            this.graphicsDevice = this.game.GraphicsDevice;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            this.font = content.Load<SpriteFont>("Score");
+            this.font = this.game.Content.Load<SpriteFont>("Score");
         }
 
         public override void HandleKeyboardEvents()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                PixelEaterGame.GameState = GameState.WelcomeScreen;
+                this.game.GameState = GameState.WelcomeScreen;
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw()
         {
-            spriteBatch.Begin();
-     
-            spriteBatch.DrawString(font, $"Game over!", gameoverTextPosition, Color.Red);
-            spriteBatch.DrawString(font, $"Your score: {this.score}", scoreTextPosition, Color.Red);
-            spriteBatch.End();
+            this.game.SpriteBatch.Begin();
+
+            this.game.SpriteBatch.DrawString(font, $"Game over!", gameoverTextPosition, Color.Red);
+            this.game.SpriteBatch.DrawString(font, $"Your score: {this.score}", scoreTextPosition, Color.Red);
+            this.game.SpriteBatch.End();
         }
     }
 }
