@@ -77,7 +77,7 @@ namespace MonkeyShock.PixelEater
 
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         protected override void Update(GameTime gameTime)

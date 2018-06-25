@@ -116,7 +116,7 @@ namespace MonkeyShock.PixelEater.Common
             }
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             this.timeCounter.Update(gameTime); 
         }
@@ -145,5 +145,7 @@ namespace MonkeyShock.PixelEater.Common
         {
             this.font = this.game.Content.Load<SpriteFont>("Score");
         }
+
+
     }
 }

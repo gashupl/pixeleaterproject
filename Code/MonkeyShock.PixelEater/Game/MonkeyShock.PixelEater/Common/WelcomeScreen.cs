@@ -14,6 +14,7 @@ namespace MonkeyShock.PixelEater.Common
         private SpriteFont font;
 
         private int singleSquareTextureSize = 30;
+        private KeyboardState oldState;
 
         public WelcomeScreen(PixelEaterGame game) : base(game)
         {
@@ -36,6 +37,7 @@ namespace MonkeyShock.PixelEater.Common
             this.titleTextures[2].SetData<Color>(colorDataFactory.Get(singleSquareTextureSize * 3 * singleSquareTextureSize, Color.Yellow));
             this.titleTextures[3].SetData<Color>(colorDataFactory.Get(singleSquareTextureSize * singleSquareTextureSize * 2, Color.Yellow));
         }
+
 
         public override void HandleKeyboardEvents()
         {
@@ -62,6 +64,12 @@ namespace MonkeyShock.PixelEater.Common
         public override void LoadContent()
         {
             this.font = this.game.Content.Load<SpriteFont>("WelcomeScreen");
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            KeyboardState newState = Keyboard.GetState();
+            //TODO: Implement valid keyboard pressed enter handler: http://rbwhitaker.wikidot.com/basic-keyboard-input
         }
     }
 }

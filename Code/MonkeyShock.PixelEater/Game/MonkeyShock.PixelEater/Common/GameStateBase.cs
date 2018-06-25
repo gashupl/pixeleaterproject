@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
 
 namespace MonkeyShock.PixelEater.Common
 {
@@ -18,6 +19,8 @@ namespace MonkeyShock.PixelEater.Common
 
         public abstract void Draw();
 
-        public abstract void LoadContent(); 
+        public abstract void LoadContent();
+
+        public abstract void Update(GameTime gameTime); 
     }
 }

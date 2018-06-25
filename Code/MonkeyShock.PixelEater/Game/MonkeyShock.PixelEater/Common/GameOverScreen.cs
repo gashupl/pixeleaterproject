@@ -56,5 +56,10 @@ namespace MonkeyShock.PixelEater.Common
             this.game.SpriteBatch.DrawString(font, $"Your score: {this.score}", scoreTextPosition, Color.Red);
             this.game.SpriteBatch.End();
         }
+
+        public override void Update(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
