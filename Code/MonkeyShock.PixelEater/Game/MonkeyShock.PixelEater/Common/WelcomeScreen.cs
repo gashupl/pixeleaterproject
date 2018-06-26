@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonkeyShock.PixelEater.Common
 {
-    class WelcomeScreen : GameStateBase
+    class WelcomeScreen : GameScreenBase
     {
         private Vector2 initialPosition = new Vector2(50,50);
         private Vector2 initialMenuPosition = new Vector2(200, 100);
@@ -14,7 +14,7 @@ namespace MonkeyShock.PixelEater.Common
         private SpriteFont font;
 
         private int singleSquareTextureSize = 30;
-        private KeyboardState oldState;
+        
 
         public WelcomeScreen(PixelEaterGame game) : base(game)
         {
@@ -41,9 +41,9 @@ namespace MonkeyShock.PixelEater.Common
 
         public override void HandleKeyboardEvents()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            if(this.IsKeyPressed(Keyboard.GetState(), Keys.Enter))
             {
-                this.game.GameState = GameState.Gameplay; 
+                this.game.GameState = GameState.Gameplay;
             }
         }
 
@@ -66,10 +66,5 @@ namespace MonkeyShock.PixelEater.Common
             this.font = this.game.Content.Load<SpriteFont>("WelcomeScreen");
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            KeyboardState newState = Keyboard.GetState();
-            //TODO: Implement valid keyboard pressed enter handler: http://rbwhitaker.wikidot.com/basic-keyboard-input
-        }
     }
 }

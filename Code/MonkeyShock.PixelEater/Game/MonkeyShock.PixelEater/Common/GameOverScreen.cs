@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonkeyShock.PixelEater.Common
 {
-    class GameOverScreen : GameStateBase
+    class GameOverScreen : GameScreenBase
     {
         private int score;
 
@@ -57,9 +57,5 @@ namespace MonkeyShock.PixelEater.Common
             this.game.SpriteBatch.End();
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

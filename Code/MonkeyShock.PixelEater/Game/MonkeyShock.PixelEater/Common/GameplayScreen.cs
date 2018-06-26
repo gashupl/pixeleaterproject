@@ -7,7 +7,7 @@ using System;
 
 namespace MonkeyShock.PixelEater.Common
 {
-    class GameplayScreen : GameStateBase
+    class GameplayScreen : GameScreenBase
     {
         public static int Score = 0;
 
@@ -116,7 +116,7 @@ namespace MonkeyShock.PixelEater.Common
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             this.timeCounter.Update(gameTime); 
         }

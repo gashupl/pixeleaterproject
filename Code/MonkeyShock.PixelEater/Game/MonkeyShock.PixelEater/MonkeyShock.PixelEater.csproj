@@ -46,7 +46,7 @@
     <Compile Include="Common\GameOverScreen.cs" />
     <Compile Include="Common\GameplayScreen.cs" />
     <Compile Include="Common\GameState.cs" />
-    <Compile Include="Common\GameStateBase.cs" />
+    <Compile Include="Common\GameScreenBase.cs" />
     <Compile Include="Common\WelcomeScreen.cs" />
     <Compile Include="PixelEaterGame.cs" />
     <Compile Include="Program.cs" />
