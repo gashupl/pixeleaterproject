@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonkeyShock.Common;
 
-namespace MonkeyShock.PixelEater.Common
+namespace MonkeyShock.PixelEater.Screens
 {
     class WelcomeScreen : GameScreenBase
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonkeyShock.PixelEater.Common;
+using MonkeyShock.PixelEater.Screens;
 
 namespace MonkeyShock.PixelEater
 {

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MonkeyShock.Common;
 using System;
 
-namespace MonkeyShock.PixelEater.Common
+namespace MonkeyShock.PixelEater.Screens
 {
     class GameplayScreen : GameScreenBase
     {

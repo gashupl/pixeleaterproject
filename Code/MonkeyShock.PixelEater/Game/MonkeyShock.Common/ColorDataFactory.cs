@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MonkeyShock.PixelEater.Common
+namespace MonkeyShock.Common
 {
     public class ColorDataFactory
     {

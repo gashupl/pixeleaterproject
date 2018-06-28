@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace MonkeyShock.PixelEater.Common
+namespace MonkeyShock.PixelEater.Screens
 {
     class GameOverScreen : GameScreenBase
     {
