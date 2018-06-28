@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonkeyShock.Common;
+using MonkeyShock.PixelEater.Objects;
 using System;
 
 namespace MonkeyShock.PixelEater.Screens
@@ -11,10 +12,12 @@ namespace MonkeyShock.PixelEater.Screens
     {
         public static int Score = 0;
 
+        private Eater eater;
+        private Arena arena; 
         private readonly int frameSize = 10;
         private readonly int arenaWidth = 1000;
         private readonly int arenaHeigth = 700;
-        private readonly int squareTextureSize = 10;
+
         private readonly int movePixelNumber = 3;
   
         private int initialSecondsNumber = 5; 
@@ -33,7 +36,8 @@ namespace MonkeyShock.PixelEater.Screens
 
         public GameplayScreen(PixelEaterGame game, Action onTimesUpAction) : base(game)
         {
-
+            this.arena = new Arena(); 
+            this.eater = new Eater(this.arena); 
             this.onTimesUpAction = onTimesUpAction; 
             this.scoreTextPosition = new Vector2(this.frameSize, 10);
             this.timerTextPosition = new Vector2(this.frameSize, 40);
@@ -49,12 +53,12 @@ namespace MonkeyShock.PixelEater.Screens
         public override void Initialize()
         {
             this.graphicsDevice = this.game.GraphicsDevice; 
-            this.eaterTexture = new Texture2D(this.graphicsDevice, squareTextureSize, squareTextureSize);
+            this.eaterTexture = new Texture2D(this.graphicsDevice, eater.TextureSize, eater.TextureSize);
             this.arenaTexture = new Texture2D(this.graphicsDevice, this.arenaWidth, this.arenaHeigth);
 
             var colorDataFactory = new ColorDataFactory();
 
-            this.eaterTexture.SetData<Color>(colorDataFactory.Get(this.squareTextureSize * this.squareTextureSize, Color.Red));
+            this.eaterTexture.SetData<Color>(colorDataFactory.Get(this.eater.TextureSize * this.eater.TextureSize, Color.Red));
             this.arenaTexture.SetData<Color>(colorDataFactory.Get(this.arenaWidth * this.arenaHeigth, Color.White)); 
         }
 
@@ -71,7 +75,7 @@ namespace MonkeyShock.PixelEater.Screens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                var arenaDownCornerY = this.arenaInitialPosition.Y + arenaHeigth - this.squareTextureSize;
+                var arenaDownCornerY = this.arenaInitialPosition.Y + arenaHeigth - this.eater.TextureSize;
                 if (eaterInitialPosition.Y < arenaDownCornerY)
                 {
                     if ((arenaDownCornerY - this.eaterInitialPosition.Y) >= movePixelNumber)
@@ -95,7 +99,7 @@ namespace MonkeyShock.PixelEater.Screens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                var arenaRightCornerX = this.arenaInitialPosition.X + this.arenaWidth - this.squareTextureSize; 
+                var arenaRightCornerX = this.arenaInitialPosition.X + this.arenaWidth - this.eater.TextureSize; 
                 if (eaterInitialPosition.X < arenaRightCornerX)
                 {
                     if ((arenaRightCornerX - eaterInitialPosition.X) >= movePixelNumber)
