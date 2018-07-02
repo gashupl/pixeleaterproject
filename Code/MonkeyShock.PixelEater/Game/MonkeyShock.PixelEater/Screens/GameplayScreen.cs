@@ -13,53 +13,41 @@ namespace MonkeyShock.PixelEater.Screens
         public static int Score = 0;
 
         private Eater eater;
-        private Arena arena; 
-        private readonly int frameSize = 10;
-        private readonly int arenaWidth = 1000;
-        private readonly int arenaHeigth = 700;
+        private Arena arena;
 
+        private readonly int frameSize = 10;
         private readonly int movePixelNumber = 3;
   
-        private int initialSecondsNumber = 5; 
+        private int initialSecondsNumber = 60; 
         private TimeCounter timeCounter; 
 
-        private Vector2 eaterInitialPosition; 
-        private Texture2D eaterTexture;
         private SpriteFont font;
         private Vector2 scoreTextPosition;
         private Vector2 timerTextPosition;
-
-        private Vector2 arenaInitialPosition; 
-        private Texture2D arenaTexture;
 
         private Action onTimesUpAction; 
 
         public GameplayScreen(PixelEaterGame game, Action onTimesUpAction) : base(game)
         {
-            this.arena = new Arena(); 
-            this.eater = new Eater(this.arena); 
+
             this.onTimesUpAction = onTimesUpAction; 
             this.scoreTextPosition = new Vector2(this.frameSize, 10);
             this.timerTextPosition = new Vector2(this.frameSize, 40);
-            this.arenaInitialPosition = new Vector2(
-                PixelEaterGame.WindowWidth - arenaWidth - frameSize,
-                PixelEaterGame.WindowHeigth - arenaHeigth - frameSize
-                );
-            this.eaterInitialPosition = new Vector2(this.arenaInitialPosition.X, this.arenaInitialPosition.Y);
+
+            this.arena = new Arena(frameSize);
+            this.eater = new Eater(this.arena);
             this.timeCounter = new TimeCounter(this.initialSecondsNumber, onTimesUpAction); 
 
         }
 
         public override void Initialize()
         {
-            this.graphicsDevice = this.game.GraphicsDevice; 
-            this.eaterTexture = new Texture2D(this.graphicsDevice, eater.TextureSize, eater.TextureSize);
-            this.arenaTexture = new Texture2D(this.graphicsDevice, this.arenaWidth, this.arenaHeigth);
-
+            this.graphicsDevice = this.game.GraphicsDevice;
             var colorDataFactory = new ColorDataFactory();
 
-            this.eaterTexture.SetData<Color>(colorDataFactory.Get(this.eater.TextureSize * this.eater.TextureSize, Color.Red));
-            this.arenaTexture.SetData<Color>(colorDataFactory.Get(this.arenaWidth * this.arenaHeigth, Color.White)); 
+            this.arena.Initialize(this.graphicsDevice, colorDataFactory);
+            this.eater.Initialize(this.graphicsDevice, colorDataFactory); 
+
         }
 
         public override void HandleKeyboardEvents()
@@ -67,48 +55,48 @@ namespace MonkeyShock.PixelEater.Screens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                if (this.eaterInitialPosition.Y > this.arenaInitialPosition.Y)
+                if (this.eater.InitialPosition.Y > this.arena.InitialPosition.Y)
                 {
-                    this.eaterInitialPosition.Y -= movePixelNumber;
+                    this.eater.MoveY(-movePixelNumber); 
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                var arenaDownCornerY = this.arenaInitialPosition.Y + arenaHeigth - this.eater.TextureSize;
-                if (eaterInitialPosition.Y < arenaDownCornerY)
+                var arenaDownCornerY = this.arena.InitialPosition.Y + arena.Heigth - this.eater.TextureSize;
+                if (eater.InitialPosition.Y < arenaDownCornerY)
                 {
-                    if ((arenaDownCornerY - this.eaterInitialPosition.Y) >= movePixelNumber)
+                    if ((arenaDownCornerY - this.eater.InitialPosition.Y) >= movePixelNumber)
                     {
-                        this.eaterInitialPosition.Y += movePixelNumber;
+                        this.eater.MoveY(movePixelNumber); 
                     }
                     else
                     {
-                        this.eaterInitialPosition.Y += (arenaDownCornerY - this.eaterInitialPosition.Y);
+                        this.eater.MoveY((arenaDownCornerY - this.eater.InitialPosition.Y));
                     }
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                if (eaterInitialPosition.X > this.arenaInitialPosition.X)
+                if (eater.InitialPosition.X > this.arena.InitialPosition.X)
                 {
-                    this.eaterInitialPosition.X -= movePixelNumber;
+                    this.eater.MoveX(-movePixelNumber); 
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                var arenaRightCornerX = this.arenaInitialPosition.X + this.arenaWidth - this.eater.TextureSize; 
-                if (eaterInitialPosition.X < arenaRightCornerX)
+                var arenaRightCornerX = this.arena.InitialPosition.X + this.arena.Width - this.eater.TextureSize; 
+                if (eater.InitialPosition.X < arenaRightCornerX)
                 {
-                    if ((arenaRightCornerX - eaterInitialPosition.X) >= movePixelNumber)
+                    if ((arenaRightCornerX - eater.InitialPosition.X) >= movePixelNumber)
                     {
-                        this.eaterInitialPosition.X += movePixelNumber;
+                        this.eater.MoveX(movePixelNumber); 
                     }
                     else
                     {
-                        this.eaterInitialPosition.X += (arenaRightCornerX - eaterInitialPosition.X);
+                        this.eater.MoveX((arenaRightCornerX - eater.InitialPosition.X));
                     }
 
                 }
@@ -138,8 +126,8 @@ namespace MonkeyShock.PixelEater.Screens
         public override void Draw()
         {
             this.game.SpriteBatch.Begin();
-            this.game.SpriteBatch.Draw(arenaTexture, arenaInitialPosition, Color.White);
-            this.game.SpriteBatch.Draw(eaterTexture, eaterInitialPosition, Color.Yellow);
+            this.game.SpriteBatch.Draw(arena.Texture, arena.InitialPosition, Color.White);
+            this.game.SpriteBatch.Draw(eater.Texture, eater.InitialPosition, Color.Yellow);
             this.game.SpriteBatch.DrawString(font, $"Score: {Score}", scoreTextPosition, Color.Red);
             this.game.SpriteBatch.DrawString(font, $"Remaining time: {this.timeCounter.RemainingTime}", timerTextPosition, Color.Red);
             this.game.SpriteBatch.End();
