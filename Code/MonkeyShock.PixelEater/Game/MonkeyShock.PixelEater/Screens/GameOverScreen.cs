@@ -13,14 +13,12 @@ namespace MonkeyShock.PixelEater.Screens
     class GameOverScreen : GameScreenBase
     {
         private int score;
-
         private SpriteFont font;
         private Vector2 gameoverTextPosition;
         private Vector2 scoreTextPosition;
 
         public GameOverScreen(PixelEaterGame game) : base(game)
         {
-   
             this.gameoverTextPosition = new Vector2(100, 100);
             this.scoreTextPosition = new Vector2(100, 140);
         }

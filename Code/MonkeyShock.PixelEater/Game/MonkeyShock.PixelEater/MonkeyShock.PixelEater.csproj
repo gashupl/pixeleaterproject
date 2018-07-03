@@ -42,7 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ArenaPositionRandomizer.cs" />
+    <Compile Include="Helpers\FoodFactory.cs" />
     <Compile Include="Objects\Arena.cs" />
+    <Compile Include="Objects\Food.cs" />
     <Compile Include="Objects\GameObjectBase.cs" />
     <Compile Include="Screens\GameOverScreen.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />
