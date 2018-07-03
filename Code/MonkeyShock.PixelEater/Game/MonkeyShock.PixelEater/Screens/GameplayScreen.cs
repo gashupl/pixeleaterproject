@@ -55,7 +55,7 @@ namespace MonkeyShock.PixelEater.Screens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                if (this.eater.InitialPosition.Y > this.arena.InitialPosition.Y)
+                if (this.eater.Position.Y > this.arena.Position.Y)
                 {
                     this.eater.MoveY(-movePixelNumber); 
                 }
@@ -63,23 +63,23 @@ namespace MonkeyShock.PixelEater.Screens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                var arenaDownCornerY = this.arena.InitialPosition.Y + arena.Heigth - this.eater.TextureSize;
-                if (eater.InitialPosition.Y < arenaDownCornerY)
+                var arenaDownCornerY = this.arena.Position.Y + arena.Heigth - this.eater.TextureSize;
+                if (eater.Position.Y < arenaDownCornerY)
                 {
-                    if ((arenaDownCornerY - this.eater.InitialPosition.Y) >= movePixelNumber)
+                    if ((arenaDownCornerY - this.eater.Position.Y) >= movePixelNumber)
                     {
                         this.eater.MoveY(movePixelNumber); 
                     }
                     else
                     {
-                        this.eater.MoveY((arenaDownCornerY - this.eater.InitialPosition.Y));
+                        this.eater.MoveY((arenaDownCornerY - this.eater.Position.Y));
                     }
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                if (eater.InitialPosition.X > this.arena.InitialPosition.X)
+                if (eater.Position.X > this.arena.Position.X)
                 {
                     this.eater.MoveX(-movePixelNumber); 
                 }
@@ -87,16 +87,16 @@ namespace MonkeyShock.PixelEater.Screens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                var arenaRightCornerX = this.arena.InitialPosition.X + this.arena.Width - this.eater.TextureSize; 
-                if (eater.InitialPosition.X < arenaRightCornerX)
+                var arenaRightCornerX = this.arena.Position.X + this.arena.Width - this.eater.TextureSize; 
+                if (eater.Position.X < arenaRightCornerX)
                 {
-                    if ((arenaRightCornerX - eater.InitialPosition.X) >= movePixelNumber)
+                    if ((arenaRightCornerX - eater.Position.X) >= movePixelNumber)
                     {
                         this.eater.MoveX(movePixelNumber); 
                     }
                     else
                     {
-                        this.eater.MoveX((arenaRightCornerX - eater.InitialPosition.X));
+                        this.eater.MoveX((arenaRightCornerX - eater.Position.X));
                     }
 
                 }
@@ -126,8 +126,8 @@ namespace MonkeyShock.PixelEater.Screens
         public override void Draw()
         {
             this.game.SpriteBatch.Begin();
-            this.game.SpriteBatch.Draw(arena.Texture, arena.InitialPosition, Color.White);
-            this.game.SpriteBatch.Draw(eater.Texture, eater.InitialPosition, Color.Yellow);
+            this.game.SpriteBatch.Draw(arena.Texture, arena.Position, Color.White);
+            this.game.SpriteBatch.Draw(eater.Texture, eater.Position, Color.Yellow);
             this.game.SpriteBatch.DrawString(font, $"Score: {Score}", scoreTextPosition, Color.Red);
             this.game.SpriteBatch.DrawString(font, $"Remaining time: {this.timeCounter.RemainingTime}", timerTextPosition, Color.Red);
             this.game.SpriteBatch.End();
