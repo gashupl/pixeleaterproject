@@ -11,7 +11,7 @@ namespace MonkeyShock.PixelEater.Objects
 {
     class Food : GameObjectBase
     {
-        public readonly int TextureSize = 10;
+        public static readonly int TextureSize = 10;
 
         public Food(Vector2 position)
         {
@@ -20,7 +20,8 @@ namespace MonkeyShock.PixelEater.Objects
         public override void Initialize(GraphicsDevice graphicsDevice, ColorDataFactory colorDataFactory)
         {
             this.Texture = new Texture2D(graphicsDevice, TextureSize, TextureSize);
-            this.Texture.SetData<Color>(colorDataFactory.Get(TextureSize * TextureSize, Color.Red));
+            this.Texture.SetData<Color>(colorDataFactory.Get(TextureSize * TextureSize, Color.YellowGreen));
         }
+
     }
 }

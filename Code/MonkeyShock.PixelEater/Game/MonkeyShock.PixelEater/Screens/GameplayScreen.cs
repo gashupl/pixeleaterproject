@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonkeyShock.Common;
+using MonkeyShock.PixelEater.Helpers;
 using MonkeyShock.PixelEater.Objects;
 using System;
+using System.Collections.Generic;
 
 namespace MonkeyShock.PixelEater.Screens
 {
@@ -14,6 +15,7 @@ namespace MonkeyShock.PixelEater.Screens
 
         private Eater eater;
         private Arena arena;
+        private List<Food> availableFood;
 
         private readonly int frameSize = 10;
         private readonly int movePixelNumber = 3;
@@ -25,6 +27,8 @@ namespace MonkeyShock.PixelEater.Screens
         private Vector2 scoreTextPosition;
         private Vector2 timerTextPosition;
 
+        private FoodFactory foodFactory;
+        
         private Action onTimesUpAction; 
 
         public GameplayScreen(PixelEaterGame game, Action onTimesUpAction) : base(game)
@@ -36,7 +40,9 @@ namespace MonkeyShock.PixelEater.Screens
 
             this.arena = new Arena(frameSize);
             this.eater = new Eater(this.arena);
-            this.timeCounter = new TimeCounter(this.initialSecondsNumber, onTimesUpAction); 
+            this.timeCounter = new TimeCounter(this.initialSecondsNumber, onTimesUpAction);
+            this.foodFactory = new FoodFactory(this.arena);
+            this.availableFood = new List<Food>(); 
 
         }
 
@@ -110,7 +116,8 @@ namespace MonkeyShock.PixelEater.Screens
 
         public void Update(GameTime gameTime)
         {
-            this.timeCounter.Update(gameTime); 
+            this.timeCounter.Update(gameTime);
+
         }
 
         public void ResetScore()

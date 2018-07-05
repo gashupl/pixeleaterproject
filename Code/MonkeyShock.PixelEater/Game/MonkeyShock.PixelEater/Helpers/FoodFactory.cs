@@ -13,7 +13,7 @@ namespace MonkeyShock.PixelEater.Helpers
         private ArenaPositionRandomizer positionRandomizer; 
         public FoodFactory(Arena arena)
         {
-            this.positionRandomizer = new ArenaPositionRandomizer(arena); 
+            this.positionRandomizer = new ArenaPositionRandomizer(arena, Food.TextureSize); 
 
         }
 
