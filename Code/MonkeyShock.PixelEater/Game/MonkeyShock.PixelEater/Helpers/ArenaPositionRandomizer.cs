@@ -7,11 +7,13 @@ namespace MonkeyShock.PixelEater.Helpers
     class ArenaPositionRandomizer
     {
         private Arena arena;
-        private int objectTextureSize; 
+        private int objectTextureSize;
+        private Random randomizer; 
         public ArenaPositionRandomizer(Arena arena, int objectTextureSize)
         {
             this.arena = arena;
-            this.objectTextureSize = objectTextureSize; 
+            this.objectTextureSize = objectTextureSize;
+            randomizer = new Random();
         }
 
         public Vector2 GenerateRandomPosition()
@@ -19,7 +21,6 @@ namespace MonkeyShock.PixelEater.Helpers
             var maxX = this.arena.Width - objectTextureSize;
             var maxY = this.arena.Heigth - objectTextureSize;
 
-            var randomizer = new Random();
             var x = randomizer.Next(0, maxX);
             var y = randomizer.Next(0, maxY);
 

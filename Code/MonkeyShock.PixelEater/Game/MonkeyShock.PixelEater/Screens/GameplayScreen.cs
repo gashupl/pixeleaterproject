@@ -52,8 +52,11 @@ namespace MonkeyShock.PixelEater.Screens
             var colorDataFactory = new ColorDataFactory();
 
             this.arena.Initialize(this.graphicsDevice, colorDataFactory);
-            this.eater.Initialize(this.graphicsDevice, colorDataFactory); 
+            this.eater.Initialize(this.graphicsDevice, colorDataFactory);
 
+            this.availableFood.Add(this.foodFactory.Get(this.graphicsDevice, colorDataFactory));
+            this.availableFood.Add(this.foodFactory.Get(this.graphicsDevice, colorDataFactory));
+            this.availableFood.Add(this.foodFactory.Get(this.graphicsDevice, colorDataFactory));
         }
 
         public override void HandleKeyboardEvents()
@@ -133,8 +136,11 @@ namespace MonkeyShock.PixelEater.Screens
         public override void Draw()
         {
             this.game.SpriteBatch.Begin();
-            this.game.SpriteBatch.Draw(arena.Texture, arena.Position, Color.White);
-            this.game.SpriteBatch.Draw(eater.Texture, eater.Position, Color.Yellow);
+            this.game.SpriteBatch.Draw(arena.Texture, arena.Position, Color.White); this.availableFood.ForEach(f =>
+            {
+                this.game.SpriteBatch.Draw(f.Texture, f.Position, Color.Blue);
+            });
+            this.game.SpriteBatch.Draw(eater.Texture, eater.Position, Color.Red);
             this.game.SpriteBatch.DrawString(font, $"Score: {Score}", scoreTextPosition, Color.Red);
             this.game.SpriteBatch.DrawString(font, $"Remaining time: {this.timeCounter.RemainingTime}", timerTextPosition, Color.Red);
             this.game.SpriteBatch.End();
