@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ArenaPositionRandomizer.cs" />
     <Compile Include="Helpers\FoodFactory.cs" />
+    <Compile Include="Helpers\GameScreenActionInvoker.cs" />
     <Compile Include="Objects\Arena.cs" />
     <Compile Include="Objects\Food.cs" />
     <Compile Include="Objects\GameObjectBase.cs" />
