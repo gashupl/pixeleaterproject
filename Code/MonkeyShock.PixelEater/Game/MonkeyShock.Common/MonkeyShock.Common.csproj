@@ -45,6 +45,7 @@
     <Compile Include="ColorDataFactory.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
+    <Compile Include="Screens\ScreenState.cs" />
     <Compile Include="TimeCounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
