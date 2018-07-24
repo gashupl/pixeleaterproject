@@ -89,7 +89,7 @@ namespace MonkeyShock.Common.Screens
                 {
                     if (!anotherScreenHasFocus)
                     {
-                      //  screen.HandleInput()
+                        //screen.HandleInput()
                     }
                 }
             }
